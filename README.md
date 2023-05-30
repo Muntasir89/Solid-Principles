@@ -262,3 +262,6 @@ public interface SecureLoan extends LoanPayment{
 }
 ```
 Now the forceCloseLoan() method can be implemented for secureLoan without any trouble.
+## Interface Segregation
+We should create a interface in such a way that emphasizes designing fine-grained interfaces that are specific to the needs of the clients. It states that clients should not be forcesd to depend on interfaces they do not use.
+In short, we should implement the interface in such a way that all the method should relevant to the interface.
