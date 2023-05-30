@@ -11,5 +11,9 @@ public class Main{
 
         AccountOperations accountOperations = new AccountOperations();
         accountOperations.addAccount(account);
+
+        TransactionOperations transactionOperations = new TransactionOperations();
+        transactionOperations.deposit(BigDecimal.valueOf(123), 123);
+        System.out.println(account.getTotalAmount());
     }
 }
