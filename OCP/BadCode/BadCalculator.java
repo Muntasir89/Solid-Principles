@@ -1,4 +1,4 @@
-package BadCode;
+package OCP.BadCode;
 
 public class BadCalculator {
     public int calculateNumber(int number1, int number2, String type){

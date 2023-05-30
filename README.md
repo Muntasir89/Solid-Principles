@@ -147,3 +147,118 @@ public class Calculator {
 }
 ```
 Now If we want to add a new operations like division we have to just create a new class implementing the operations.
+## Liskov Substitution
+This principles states that when you are creating a parent child relationship. 
+</br> For example,
+</br> ***LoanPayment***
+```java
+public interface LoanPayment {
+    public void doPayment(int amount);
+    public void forceCloseLoan();
+    public void doRepayment(int amount);
+}
+```
+</br> ***HomeLoan***
+```java
+public class HomeLoan implements LoanPayment{
+    @Override
+    public void doPayment(int amount){
+
+    }
+    @Override
+    public void forceCloseLoan(){
+
+    }
+    @Override
+    public void doRepayment(int amount){
+        
+    }
+}
+```
+</br> ***CreditCardLoan***
+```java
+public class CreditCardLoan  implements LoanPayment{
+    @Override
+    public void doPayment(int amount) {
+        
+    }
+
+    @Override
+    public void forceCloseLoan() {
+        throw new UnsupportedOperationException("Unimplemented method 'forceCloseLoan'");
+    }
+
+    @Override
+    public void doRepayment(int amount) {
+        
+    }
+}
+```
+</br> ***LoanClosureService***
+```java
+public class LoanClosureService {
+    private LoanPayment loanPayment;
+
+    public LoanClosureService(LoanPayment loanPayment){
+        this.loanPayment = loanPayment;
+    }
+
+    public void forceCloseLoan(){
+        loanPayment.forceCloseLoan();
+    }
+}
+
+```
+In the LoanClosureService when we pass the ***loanPayment*** as **CreditCardLoan** and we want to forcecloseLoan then it will not be accepted/unsupported.
+
+Now if we change the code like this.
+</br> ***LoanPayment***
+```java
+public interface LoanPayment {
+    public void doPayment(int amount);
+}
+```
+</br> ***HomeLoan***
+```java
+public class HomeLoan implements SecureLoan{
+    @Override
+    public void doPayment(int amount) {
+
+    }
+
+    @Override
+    public void forceCloseLoan() {
+        
+    }
+}
+```
+```</br> ***CreditCarddLoan***
+```java
+public class CreditCarddLoan implements LoanPayment{
+    @Override
+    public void doPayment(int amount) {
+        
+    }
+}
+```
+</br> ***LoanClosureService***
+```java
+public class LoanClosureService {
+    private SecureLoan secureLoan;
+
+    public LoanClosureService(SecureLoan secureLoan){
+        this.secureLoan = secureLoan;
+    }
+
+    public void forceCloseLoan(){
+        secureLoan.forceCloseLoan();
+    }
+}
+```
+</br> ***SecureLoan***
+```java
+public interface SecureLoan extends LoanPayment{
+    public void forceCloseLoan();
+}
+```
+Now the forceCloseLoan() method can be implemented for secureLoan without any trouble.
