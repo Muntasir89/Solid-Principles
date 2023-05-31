@@ -270,7 +270,7 @@ Higher level modules does not have the dependent on lower level modules. Instead
 In simpler terms, the principle suggests that classes should depend on abstractions (interfaces or abstract classes) rather than concrete implementations. This allows for more flexibility, extensibility, and easier testing.
 - ***High-level modules:*** These are modules or classes that define high-level policies or orchestrate the overall behavior of the system. They should not directly depend on the low-level implementation details.
 - ***Low-level modules:*** These are modules or classes that handle specific implementation details or lower-level functionality. They should not define policies but rather adhere to them.
-***Customer***
+</br>***Customer***
 ```java
 public class Customer {
     private SMSNotificationService smsnotificationService;
