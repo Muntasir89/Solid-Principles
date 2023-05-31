@@ -264,7 +264,94 @@ public interface SecureLoan extends LoanPayment{
 Now the forceCloseLoan() method can be implemented for secureLoan without any trouble.
 ## Interface Segregation
 We should create a interface in such a way that emphasizes designing fine-grained interfaces that are specific to the needs of the clients. It states that clients should not be forcesd to depend on interfaces they do not use.
-In short, we should implement the interface in such a way that all the method should relevant to the interface.
+In short, we should implement the interface in such a way that all the method should relevant to the interface. </br>
+If we want to implement an interface with much more method like this...
+</br> ***BadDAOInterface.java***
+```java
+public interface BadDAOInterface{
+    public void openConnection();
+    public void createRecord();
+    public void openFile();
+    public void deleteRecord();
+}
+```
+***BadDBDaoConnection.java***
+```java
+public class BadDBDaoConnection implements BadDAOInterface{
+    @Override
+    public void openConnection() {
+        
+    }
+    @Override
+    public void createRecord() {
+        
+    }
+    @Override
+    public void openFile() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'openFile'");
+    }
+    @Override
+    public void deleteRecord() {
+        
+    }
+}
+```
+Here ***openFile()*** method is not appropriate for a database connection. But User have to implement this. Which is a **Bad** implementation.
+Now if we break this into some ***interface*** then the code will look like this.
+</br> ***DAOInterface.java***
+```java
+public interface DAOInterface {
+    public void createRecord();
+    public void deleteRecord();
+}
+```
+***DBInterface.java***
+```java
+public interface DBInterface {
+    public void openConnection();
+}
+```
+***FileInterface.java***
+```java
+public interface FileInterface {
+    public void openFile();
+}
+```
+***DBDaoConnection.java***
+```java
+public class DBDaoConnection implements DAOInterface, DBInterface{
+    @Override
+    public void openConnection() {
+        
+    }
+    @Override
+    public void createRecord() {
+        
+    }
+    @Override
+    public void deleteRecord() {
+
+    }
+}
+```
+***FileDaoConnection.java***
+```java
+public class FileDaoConnection implements FileInterface, DAOInterface{
+    @Override
+    public void createRecord() {
+        
+    }
+    @Override
+    public void deleteRecord() {
+        
+    }
+    @Override
+    public void openFile() {
+        
+    }
+}
+```
 ## Dependency Inversion
 Higher level modules does not have the dependent on lower level modules. Instead, both should depend on abstractions.</br></br>
 In simpler terms, the principle suggests that classes should depend on abstractions (interfaces or abstract classes) rather than concrete implementations. This allows for more flexibility, extensibility, and easier testing.
