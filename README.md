@@ -265,3 +265,135 @@ Now the forceCloseLoan() method can be implemented for secureLoan without any tr
 ## Interface Segregation
 We should create a interface in such a way that emphasizes designing fine-grained interfaces that are specific to the needs of the clients. It states that clients should not be forcesd to depend on interfaces they do not use.
 In short, we should implement the interface in such a way that all the method should relevant to the interface.
+## Dependency Inversion
+Higher level modules does not have the dependent on lower level modules. Instead, both should depend on abstractions.</br></br>
+In simpler terms, the principle suggests that classes should depend on abstractions (interfaces or abstract classes) rather than concrete implementations. This allows for more flexibility, extensibility, and easier testing.
+- ***High-level modules:*** These are modules or classes that define high-level policies or orchestrate the overall behavior of the system. They should not directly depend on the low-level implementation details.
+- ***Low-level modules:*** These are modules or classes that handle specific implementation details or lower-level functionality. They should not define policies but rather adhere to them.
+***Customer***
+```java
+public class Customer {
+    private SMSNotificationService smsnotificationService;
+
+    public Customer(){
+        smsnotificationService = new SMSNotificationService();
+    }
+}
+```
+***NotificationService***
+```java
+public class SMSNotificationService {
+    public void sendNotification(String message){
+        System.out.println(message);
+    }
+}
+```
+Now If a person buys something then he/she will get notification.</br>
+So, Person class will like this.
+***Person***
+```java
+public class Person {
+    public static void main(String[] args) {
+        Customer customer = new Customer();
+        customer.purchaseItem();
+    }
+}
+```
+Output:
+```
+Thank you for your purchase.
+```
+But if want to add new notification way like Email notification then we have to add a new class as well as customer code will change  like this.
+</br> ***Customer***
+```java
+public class Customer {
+    private SMSNotificationService smsnotificationService;
+    private EmailNotificationService emailNotificationService;
+
+    public Customer(){
+        smsnotificationService = new SMSNotificationService();
+        emailNotificationService = new EmailNotificationService();
+    }
+    public void purchaseItem(){
+        //business logic
+        //smsnotificationService.sendNotification("SMS: Thank you for your purchase.");
+        emailNotificationService.sendNotification("Email: Thank you for your purchase.");
+    }
+}
+```
+***EmailNotificationService***
+```java
+public class EmailNotificationService{
+    public void sendNotification(String message){
+        System.out.println(message);
+    }
+}
+```
+Output:
+```
+Email: Thank you for your purchase.
+```
+Did you get the difficulty??? 🤔🤔🤔🤔
+</br> We can handle this trouble situation with **Dependency Inversion Principle** very efficiently. Let's see...</br>
+***NotificationSender***
+```java
+public interface NotificationSender{
+    void sendNotification(String messsage);
+}
+```
+***Customer***
+```java
+public class Customer {
+    private NotificationSender notificationSender;
+
+    public Customer(NotificationSender notificationSender){
+        this.notificationSender = notificationSender;
+    }
+    public void purchaseItem(){
+        notificationSender.sendNotification("Thank you for your purchase");
+    }
+}
+```
+***SMSNotification***
+```java
+public class SMSNotification implements NotificationSender{
+    @Override
+    public void sendNotification(String messsage) {
+        System.out.println(messsage);
+    }
+}
+```
+***EmailNotification***
+```java
+public class EmailNotification implements NotificationSender{
+    @Override
+    public void sendNotification(String messsage) {
+        System.out.println(messsage);
+    }
+}
+```
+***Person***
+```java
+public class Person {
+    public static void main(String[] args) {
+        NotificationSender notificationSender = new SMSNotification();
+        Customer customer = new Customer(notificationSender);
+        customer.purchaseItem();
+    }
+}
+```
+Output:
+```
+Thank you for your purchase
+```
+Now if want to send notification by Email just change ***SMSNotification()*** by ***EmailNotification()***. Easy right??? </br>
+Again, If we want to add new notification by using WhatsApp just add this class. create object ***WhatsAppNotification()***
+***WhatsAppNotification***
+```java
+public class WhatsAppNotification implements NotificationSender{
+    @Override
+    public void sendNotification(String messsage) {
+        System.out.println(messsage);
+    }
+}
+```
