@@ -270,7 +270,7 @@ Higher level modules does not have the dependent on lower level modules. Instead
 In simpler terms, the principle suggests that classes should depend on abstractions (interfaces or abstract classes) rather than concrete implementations. This allows for more flexibility, extensibility, and easier testing.
 - ***High-level modules:*** These are modules or classes that define high-level policies or orchestrate the overall behavior of the system. They should not directly depend on the low-level implementation details.
 - ***Low-level modules:*** These are modules or classes that handle specific implementation details or lower-level functionality. They should not define policies but rather adhere to them.
-</br>***Customer***
+</br></br>***Customer.java***
 ```java
 public class Customer {
     private SMSNotificationService smsnotificationService;
@@ -280,7 +280,7 @@ public class Customer {
     }
 }
 ```
-***NotificationService***
+***NotificationService.java***
 ```java
 public class SMSNotificationService {
     public void sendNotification(String message){
@@ -290,7 +290,7 @@ public class SMSNotificationService {
 ```
 Now If a person buys something then he/she will get notification.</br>
 So, Person class will like this.
-***Person***
+</br>***Person.java***
 ```java
 public class Person {
     public static void main(String[] args) {
@@ -304,7 +304,7 @@ Output:
 Thank you for your purchase.
 ```
 But if want to add new notification way like Email notification then we have to add a new class as well as customer code will change  like this.
-</br> ***Customer***
+</br> ***Customer.java***
 ```java
 public class Customer {
     private SMSNotificationService smsnotificationService;
@@ -321,7 +321,7 @@ public class Customer {
     }
 }
 ```
-***EmailNotificationService***
+***EmailNotificationService.java***
 ```java
 public class EmailNotificationService{
     public void sendNotification(String message){
@@ -335,13 +335,13 @@ Email: Thank you for your purchase.
 ```
 Did you get the difficulty??? 🤔🤔🤔🤔
 </br> We can handle this trouble situation with **Dependency Inversion Principle** very efficiently. Let's see...</br>
-***NotificationSender***
+***NotificationSender.java***
 ```java
 public interface NotificationSender{
     void sendNotification(String messsage);
 }
 ```
-***Customer***
+***Customer.java***
 ```java
 public class Customer {
     private NotificationSender notificationSender;
@@ -354,7 +354,7 @@ public class Customer {
     }
 }
 ```
-***SMSNotification***
+***SMSNotification.java***
 ```java
 public class SMSNotification implements NotificationSender{
     @Override
@@ -363,7 +363,7 @@ public class SMSNotification implements NotificationSender{
     }
 }
 ```
-***EmailNotification***
+***EmailNotification.java***
 ```java
 public class EmailNotification implements NotificationSender{
     @Override
@@ -372,7 +372,7 @@ public class EmailNotification implements NotificationSender{
     }
 }
 ```
-***Person***
+***Person.java***
 ```java
 public class Person {
     public static void main(String[] args) {
@@ -388,7 +388,7 @@ Thank you for your purchase
 ```
 Now if want to send notification by Email just change ***SMSNotification()*** by ***EmailNotification()***. Easy right??? </br>
 Again, If we want to add new notification by using WhatsApp just add this class. create object ***WhatsAppNotification()***
-</br>***WhatsAppNotification***
+</br>***WhatsAppNotification.java***
 ```java
 public class WhatsAppNotification implements NotificationSender{
     @Override
