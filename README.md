@@ -388,7 +388,7 @@ Thank you for your purchase
 ```
 Now if want to send notification by Email just change ***SMSNotification()*** by ***EmailNotification()***. Easy right??? </br>
 Again, If we want to add new notification by using WhatsApp just add this class. create object ***WhatsAppNotification()***
-***WhatsAppNotification***
+</br>***WhatsAppNotification***
 ```java
 public class WhatsAppNotification implements NotificationSender{
     @Override
