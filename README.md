@@ -36,7 +36,7 @@ public class Account{
 }
 ```
 
-</br>***AccountOperations***
+</br>***AccountOperations.java***
 ```java
 public class AccountOperations{
     private static Map<Integer, Account>accountMap = new HashMap<>();
@@ -55,7 +55,7 @@ public class AccountOperations{
 }
 ```
 In this ***AccountOperations.java*** only the account related operations. Unlikely, it does not have the deposit operations becuase it does not belong to the account operations.
-</br> ***TransactionOperations***
+</br> ***TransactionOperations.java***
 ```java
 public class TransactionOperations {
     public void deposit(BigDecimal amount, int accountNumber){
@@ -73,7 +73,7 @@ public class TransactionOperations {
 }
 ```
 In this ***TransactionsOperations*** only can perform the deposit and withdraw operations.
-</br> ***Main***
+</br> ***Main.java***
 ```java
 public class Main{
     public static void main(String args[]){
@@ -96,7 +96,7 @@ public class Main{
 
 ## OCP Principles
 Open for extension and closed for modification. Any class that you create should open for extension and closed for modification.
-
+</br> ***BadCalculator.java***
 ```java
 public class BadCalculator{
     public int calculateNumber(int number1, int number2, String type){
@@ -113,13 +113,13 @@ public class BadCalculator{
 ```
 If we want to add a new method like division or multiplication we have to modify the code. It is a violation of our ***OCP*** principles.</br>
 Now let's have a look at ***good*** code.</br>
-***Operations***
+***Operations.java***
 ```java
 public interface Operations {
     public int perform(int number1, int number2);
 }
 ```
-</br> ***AddOperation***
+***AddOperation.java***
 ```java
 public class AddOperation implements Operations{
     @Override
@@ -128,7 +128,7 @@ public class AddOperation implements Operations{
     }
 }
 ```
-</br> ***SubtractOperations***
+***SubtractOperations.java***
 ```java
 public class SubtractOperations implements Operations{
 
@@ -138,7 +138,7 @@ public class SubtractOperations implements Operations{
     }
 }
 ```
-</br> ***Calculator***
+</br> ***Calculator.java***
 ```java
 public class Calculator {
     public int calculateNumber(int number1, int number2, Operations operation){
@@ -150,7 +150,7 @@ Now If we want to add a new operations like division we have to just create a ne
 ## Liskov Substitution
 This principles states that when you are creating a parent child relationship. 
 </br> For example,
-</br> ***LoanPayment***
+</br> ***LoanPayment.java***
 ```java
 public interface LoanPayment {
     public void doPayment(int amount);
@@ -158,7 +158,7 @@ public interface LoanPayment {
     public void doRepayment(int amount);
 }
 ```
-</br> ***HomeLoan***
+</br> ***HomeLoan.java***
 ```java
 public class HomeLoan implements LoanPayment{
     @Override
@@ -175,7 +175,7 @@ public class HomeLoan implements LoanPayment{
     }
 }
 ```
-</br> ***CreditCardLoan***
+</br> ***CreditCardLoan.java***
 ```java
 public class CreditCardLoan  implements LoanPayment{
     @Override
@@ -194,7 +194,7 @@ public class CreditCardLoan  implements LoanPayment{
     }
 }
 ```
-</br> ***LoanClosureService***
+</br> ***LoanClosureService.java***
 ```java
 public class LoanClosureService {
     private LoanPayment loanPayment;
@@ -212,13 +212,13 @@ public class LoanClosureService {
 In the LoanClosureService when we pass the ***loanPayment*** as **CreditCardLoan** and we want to forcecloseLoan then it will not be accepted/unsupported.
 
 Now if we change the code like this.
-</br> ***LoanPayment***
+</br> ***LoanPayment.java***
 ```java
 public interface LoanPayment {
     public void doPayment(int amount);
 }
 ```
-</br> ***HomeLoan***
+</br> ***HomeLoan.java***
 ```java
 public class HomeLoan implements SecureLoan{
     @Override
@@ -232,7 +232,7 @@ public class HomeLoan implements SecureLoan{
     }
 }
 ```
-```</br> ***CreditCarddLoan***
+```</br> ***CreditCarddLoan.java***
 ```java
 public class CreditCarddLoan implements LoanPayment{
     @Override
@@ -241,7 +241,7 @@ public class CreditCarddLoan implements LoanPayment{
     }
 }
 ```
-</br> ***LoanClosureService***
+</br> ***LoanClosureService.java***
 ```java
 public class LoanClosureService {
     private SecureLoan secureLoan;
@@ -255,7 +255,7 @@ public class LoanClosureService {
     }
 }
 ```
-</br> ***SecureLoan***
+</br> ***SecureLoan.java***
 ```java
 public interface SecureLoan extends LoanPayment{
     public void forceCloseLoan();
